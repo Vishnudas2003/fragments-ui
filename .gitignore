@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+#Parcel files
+dist/
+.parcel-cache
+
+# Don't include .env, which might have sensitive information
+.env
