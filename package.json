@@ -24,6 +24,7 @@
     "querystring-es3": "^0.2.1"
   },
   "dependencies": {
-    "aws-amplify": "^5.0.11"
+    "aws-amplify": "^5.0.11",
+    "dotenv": "^16.0.3"
   }
 }
