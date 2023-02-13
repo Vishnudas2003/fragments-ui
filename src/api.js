@@ -1,6 +1,7 @@
 // src/api.js
 
 // fragments microservice API, defaults to localhost:8080
+//const apiUrl = 'http://ec2-3-235-50-101.compute-1.amazonaws.com:8080';
 const apiUrl = process.env.API_URL || 'http://localhost:8080';
 
 /**
@@ -24,3 +25,26 @@ export async function getUserFragments(user) {
     console.error('Unable to call GET /v1/fragment', { err });
   }
 }
+
+export async function postUser(user, fragmentContent) {
+  console.log('posting user fragments data...');
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments`, {
+      method: 'POST',
+      // Generate headers with the proper Authorization bearer token to pass
+      headers: {
+        'Authorization' : `Bearer ${user.idToken}`,
+        'Content-Type' : 'text/plain',
+      },
+      body: `${fragmentContent}`,
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    console.log('Got user fragments data', { data });
+  } catch (err) {
+    console.error('Unable to call GET /v1/fragment', { err });
+  }
+}
+
