@@ -12,7 +12,7 @@ const apiUrl = process.env.API_URL || 'http://localhost:8080';
 export async function getUserFragments(user) {
   console.log('Requesting user fragments data...');
   try {
-    const res = await fetch(`${apiUrl}/v1/fragments`, {
+    const res = await fetch(`${apiUrl}/v1/fragments/?expand=1`, {
       // Generate headers with the proper Authorization bearer token to pass
       headers: user.authorizationHeaders(),
     });
@@ -21,12 +21,13 @@ export async function getUserFragments(user) {
     }
     const data = await res.json();
     console.log('Got user fragments data', { data });
+    return data.fragments;
   } catch (err) {
     console.error('Unable to call GET /v1/fragment', { err });
   }
 }
 
-export async function postUser(user, fragmentContent) {
+export async function postUser(user, fragmentContent, contentType) {
   console.log('posting user fragments data...');
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
@@ -34,7 +35,7 @@ export async function postUser(user, fragmentContent) {
       // Generate headers with the proper Authorization bearer token to pass
       headers: {
         'Authorization' : `Bearer ${user.idToken}`,
-        'Content-Type' : 'text/plain',
+        'Content-Type' : contentType,
       },
       body: `${fragmentContent}`,
     });

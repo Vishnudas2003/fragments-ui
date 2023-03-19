@@ -20,7 +20,28 @@
       <p>Enter the post for Fragments</p>
       <input type="input" id="new-Fragments" name="title"/>
       <br><br>
+      <label>Fragment Type:</label>
+      <select class="ui fluid dropdown" id="fragmentType">
+        <option value="text/plain">text/plain</option>
+        <option value="text/plain; charset=utf-8">
+          text/plain; charset=utf-8
+        </option>
+        <option value="text/markdown">text/markdown</option>
+        <option value="text/html">text/html</option>
+        <option value="application/json">application/json</option>
       <Button id="fragButton">Fragments ready</Button>
+
+      <h2>Retrieve all fragment:</h2>
+
+      <button id="getFragmentBtn">get user fragments</button>
+      <table class="fragmentList">
+        <tr>
+          <th>id</th>
+          <th>Created</th>
+          <th>Updated</th>
+          <th>type</th>
+        </tr>
+      </table>
     </section>
   </body>
 </html>
