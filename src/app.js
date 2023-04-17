@@ -1,7 +1,8 @@
 // src/app.js
-
 import { Auth, getUser } from './auth';
-import { getUserFragments, postUser } from './api';
+import { getUserFragments, postUser, getUserFragmentById, getFragmentbyInfo } from './api';
+import { putUser } from './api'; 
+import { deleteUser } from './api';
 
 async function init() {
   // Get our UI elements
@@ -10,9 +11,22 @@ async function init() {
   const logoutBtn = document.querySelector('#logout');
   const buttonFragment = document.querySelector('#fragButton');
   const fragmentContent = document.querySelector('#new-Fragments');
+  const getFragmentfileBtn = document.querySelector("#fragButtonfile");
+  const fragmentfile = document.querySelector("#new-Fragment-file");
+
   const getFragmentBtn = document.querySelector("#getFragmentBtn");
   const fragmentType = document.querySelector("#fragmentType");
-
+  const delete_id = document.querySelector('#deleteID');
+  const deletebtn = document.querySelector('#deletebtn');
+  const update_id = document.querySelector('#updateID');
+  const updatebtn = document.querySelector('#updatebtn');
+  const updateContent = document.querySelector('#updateContent');
+  const updateType = document.querySelector('#updateType');
+  const getByIdBtn = document.querySelector('#getbyid');
+  const get_id = document.querySelector('#get_id');
+  const getByIdData = document.querySelector('#content-type');
+  const getByIdInfo = document.querySelector('#getInfo');
+  
   // Wire up event handlers to deal with login and logout.
   loginBtn.onclick = () => {
     // Sign-in via the Amazon Cognito Hosted UI (requires redirects), see:
@@ -26,6 +40,16 @@ async function init() {
   };
   buttonFragment.onclick = () =>{
     postUser(user, fragmentContent.value, fragmentType.value);
+  }
+  getFragmentfileBtn.onclick = () =>{
+    postUser(user, fragmentfile.value, fragmentType.value);
+  }
+  getByIdBtn.onclick = async () =>{
+    getByIdData.innerHTML = await getUserFragmentById(user, get_id.value);
+  }
+  getByIdInfo.onclick = async () =>{
+    var data = await getFragmentbyInfo(user, get_id.value);
+    getByIdData.innerHTML = JSON.stringify(data);
   }
   getFragmentBtn.onclick = () => {
     let fragmentHtml = "";
@@ -89,7 +113,17 @@ async function init() {
 
   // Disable the Login button
   loginBtn.disabled = true;
+
+  deletebtn.onclick = () => {
+    deleteUser(user, delete_id.value);
+  }
+
+  updatebtn.onclick = () => {
+    putUser(user, update_id.value, updateContent.value, updateType.value);
+    console.log("update id: " + update_id.value + " update content: " + updateContent.value + " update type: " + updateType.value);
+  }
 }
 
 // Wait for the DOM to be ready, then start the app
 addEventListener('DOMContentLoaded', init);
+
